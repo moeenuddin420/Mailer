@@ -4,6 +4,11 @@ const nodemailer = require("nodemailer");
 const app = express();
 app.use(express.json());
 
+/* 🔹 NEW: health / wake route */
+app.get("/", (req, res) => {
+  res.json({ status: "Mailer API is running" });
+});
+
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
@@ -31,6 +36,7 @@ app.post("/send-email", async (req, res) => {
 
     res.json({ success: true });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: err.message });
   }
 });
